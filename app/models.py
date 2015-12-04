@@ -7,8 +7,6 @@ class User(db.Model):
     meals = db.relationship('Meal', backref='author', lazy='dynamic')
     authenticated = db.Column(db.Boolean, default=False)
 
-    __tablename__ = 'user'
-
     def __repr__(self):
         return '<User %r>' % (self.name)
 
