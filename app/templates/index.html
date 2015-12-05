@@ -1,5 +1,4 @@
-{% extends "base.html" %}
-
+{% extends 'base.html' %}
 {% block content %}
 	<div class="container-fluid">
 	  <div class="row-fluid">
@@ -19,4 +18,23 @@
     {% for meal in meals %}
     <div><p>{{ meal.author.name }} is eating in <b>{{ meal.house }}</b> at <b>{{ meal.meal_time }}</b> </p></div>
     {% endfor %}
+{% endblock %}
+<div class="jumbotron">
+  <div class="container">
+    <h1>Grab-A-Meal</h1>
+  </div>
+</div>
+<div class="container">
+  {% with messages = get_flashed_messages() %}
+    {% if messages %}
+      {% for message in messages %}
+      <div class="row">
+        <div class="col-md-12">
+          <div class="alert alert-info" role="alert">{{ message }}</div>
+        </div>
+      </div>
+      {% endfor %}
+    {% endif %}
+  {% endwith %}
+</div>
 {% endblock %}

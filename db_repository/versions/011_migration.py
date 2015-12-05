@@ -10,14 +10,12 @@ user = Table('user', pre_meta,
     Column('name', VARCHAR(length=64)),
     Column('email', VARCHAR(length=120)),
     Column('authenticated', BOOLEAN),
-    Column('password_hash', VARCHAR(length=128)),
 )
 
 user = Table('user', post_meta,
     Column('id', Integer, primary_key=True, nullable=False),
     Column('username', String(length=64)),
     Column('email', String(length=120)),
-    Column('password', String(length=128)),
     Column('authenticated', Boolean, default=ColumnDefault(False)),
 )
 
@@ -28,8 +26,6 @@ def upgrade(migrate_engine):
     pre_meta.bind = migrate_engine
     post_meta.bind = migrate_engine
     pre_meta.tables['user'].columns['name'].drop()
-    pre_meta.tables['user'].columns['password_hash'].drop()
-    post_meta.tables['user'].columns['password'].create()
     post_meta.tables['user'].columns['username'].create()
 
 
@@ -38,6 +34,4 @@ def downgrade(migrate_engine):
     pre_meta.bind = migrate_engine
     post_meta.bind = migrate_engine
     pre_meta.tables['user'].columns['name'].create()
-    pre_meta.tables['user'].columns['password_hash'].create()
-    post_meta.tables['user'].columns['password'].drop()
     post_meta.tables['user'].columns['username'].drop()
