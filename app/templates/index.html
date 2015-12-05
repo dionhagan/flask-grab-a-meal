@@ -12,18 +12,17 @@
 	    <div class="span10">
 	      <!--Body content-->
 	    </div>
+	  </div>
 	</div>
-	</div>
-    <h1>Hi there, {{ user.name }}!</h1>
+	<div class="jumbotron">
+      <div class="container">
+        <h1>Grab-A-Meal</h1>
+      </div>
+    </div>
+    <h1>Hi there, {{ user.username }}!</h1>
     {% for meal in meals %}
     <div><p>{{ meal.author.name }} is eating in <b>{{ meal.house }}</b> at <b>{{ meal.meal_time }}</b> </p></div>
     {% endfor %}
-{% endblock %}
-<div class="jumbotron">
-  <div class="container">
-    <h1>Grab-A-Meal</h1>
-  </div>
-</div>
 <div class="container">
   {% with messages = get_flashed_messages() %}
     {% if messages %}
