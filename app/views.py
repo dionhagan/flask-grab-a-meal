@@ -87,6 +87,7 @@ def plan():
     if request.method == 'GET':
         return render_template('plan.html')
     elif request.method == 'POST':
+        print 'posted'
         user_id = current_user.id
         house = request.form['txtHouse']
         day = datetime.date.now()
