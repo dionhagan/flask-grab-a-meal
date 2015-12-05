@@ -22,7 +22,7 @@ class User(UserMixin, db.Model):
                                lazy='dynamic')
 
     def __repr__(self):
-        return '<User %r>' % (self.name)
+        return '<User %r>' % (self.username)
 
     def follow(self, user):
         if not self.is_following(user):
