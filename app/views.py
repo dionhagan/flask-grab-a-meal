@@ -48,5 +48,5 @@ def login():
             session['user'] = user
             return redirect(request.args.get('next') or url_for('index'))
         flash('Invalid username or password.')
-    return render_template('auth/login.html', form=form)
+    return render_template('login.html', form=form)
 
