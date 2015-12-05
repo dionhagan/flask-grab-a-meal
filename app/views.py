@@ -55,7 +55,8 @@ def login():
         user = User.query.filter_by(username=username).filter_by(password=password)
         if user.count() == 1:
             login_user(user.one())
-            # current_user = user
+
+            #current_user = user.one()
             flash('Welcome back {0}'.format(username))
             try:
                 next = request.form['next']
@@ -107,11 +108,20 @@ def plan():
     else:
         return abort(405)
 
-
 @app.route('/house', methods=['GET', 'POST'])
 def house():
-    render(url_for('index'))
+    return redirect(url_for('index'))
 
 @app.route('/find')
 def find():
-    render(url_for('index'))
+    if request.method == 'GET':
+        all_users = []
+        for usr in User.query.all():
+            if usr.username != current_user.username:
+                all_users.append(usr)
+        return render_template("find.html", all_users = all_users)
+    elif request.method == 'POST':
+        pass
+    else:
+        abort(405)
+    return redirect(url_for('index'))
