@@ -1,0 +1,49 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="container">
+  <div class="row">
+    <div class="col-md-12">
+      <center>
+        <h1>Planning a meal? Tell your friends!</h1>
+      </center>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-8 col-md-offset-2">
+      <form action="/plan" method="post">
+
+
+        <div class="form-group">
+          <label for="txtHouse">House</label>
+          <input type="text" class="form-control" id="txtHouse" name="txtHouse"/>
+        </div>
+
+
+        <div class="form-group">
+          <label for="txtTime">Time</label>
+          <input type="datetime-local" class="form-control" id="txtTime" name="txtTime"/>
+        </div>
+
+
+        <!-- {% if next %}
+        <input type="hidden" name="next" value="{{ next }}">
+        {% endif %} -->
+        <button type="submit" class="btn btn-primary">Submit</button>
+
+
+
+
+      </form>
+    </div>
+  </div>
+  {% with messages = get_flashed_messages() %}
+    {% if messages %}
+      {% for message in messages %}
+      <div class="row">
+        <div class="alert alert-info" role="alert">{{ message }}</div>
+      </div>
+      {% endfor %}
+    {% endif %}
+  {% endwith %}
+</div>
+{% endblock %}
