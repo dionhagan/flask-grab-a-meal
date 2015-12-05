@@ -1,25 +1,16 @@
 from flask import render_template, flash, redirect, url_for, session, request
 from app import app
 from .forms import LoginForm, RegistrationForm
-from .models import User
+from .models import User, Meal, followers
 
 
 #HOME
 @app.route('/')
 @app.route('/index')
 def index():
-    user = {'name': 'Miguel'}  # fake user
+    user = User.query.get(1) #marina
     #list of dictionaries
-    meals = [
-        {
-            'house': 'Kirkland',
-            'author': {'name': 'John'}
-        },
-        {
-            'house': 'Eliot',
-            'author': {'name': 'Susan'}
-        }
-    ]
+    meals = Meal.query.join(followers, (followers.c.followed_id == Meal.user_id)).filter(followers.c.follower_id == user.id).order_by(Meal.timestamp.desc())
     return render_template('index.html',
                            title='Home',
                            user=user,
