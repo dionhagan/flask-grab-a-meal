@@ -79,3 +79,15 @@ def user_loader(user_id):
 def logout():
     logout_user()
     return redirect(url_for('index'))
+
+@app.route('/plan', methods=['GET', 'POST'])
+def plan():
+    render(url_for('index'))
+
+@app.route('/house', methods=['GET', 'POST'])
+def house():
+    render(url_for('index'))
+
+@app.route('/find')
+def find():
+    render(url_for('index'))
