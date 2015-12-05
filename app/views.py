@@ -7,13 +7,19 @@ from flask.ext.login import login_user, logout_user, login_required, current_use
 import datetime
 from datetime import date
 
+def parse_timestamp(time):
+    time = str(time)
+    return time[0:16]
+
 #HOME
 @app.route('/')
 @app.route('/index')
 @login_required
 def index():
     #list of dictionaries
-    meals = current_user.followed_posts().all()
+    meals = current_user.followed_posts().order_by(Meal.timestamp)
+    for meal in meals:
+        meal.date = parse_timestamp(meal.timestamp)
     return render_template('index.html',
                            title='Home',
                            meals=meals)
@@ -97,7 +103,7 @@ def plan():
         user_id = current_user.id
         house = request.form['house']
         time = request.form['time']
-        meal = Meal(house=house, time=time, author=current_user)
+        meal = Meal(house=house, time=time, author=current_user, timestamp=datetime.datetime.now())
         db.session.add(meal)
         db.session.commit()
         flash('Thank you for submitting your meal!')

@@ -78,6 +78,7 @@ class Meal(db.Model):
 	timestamp = db.Column(db.DateTime)
 	meal_time = db.Column(db.DateTime)
 	time = db.Column(db.String(12))
+	date = db.Column(db.String(16))
 	user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
 
 	def __repr__(self):
