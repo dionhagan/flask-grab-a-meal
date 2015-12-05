@@ -1,10 +1,9 @@
-from flask import render_template, flash, redirect, url_for, session, request
 from app import app, db
 from flask import render_template, flash, redirect, url_for, session, request, abort
 from app import app, db, login_manager
 from .forms import LoginForm, RegistrationForm
 from .models import User, Meal, followers
-from flask.ext.login import login_user, logout_user, login_required
+from flask.ext.login import login_user, logout_user, login_required, current_user
 
 #HOME
 @app.route('/')
@@ -47,8 +46,7 @@ def register():
 @app.route('/login', methods=['GET', 'POST'])
 def login():
     if request.method == 'GET':
-        if request.method == 'GET':
-            return render_template('login.html', next=request.args.get('next'))
+        return render_template('login.html', next=request.args.get('next'))
     elif request.method == 'POST':
         username = request.form['txtUsername']
         password = request.form['txtPassword']
@@ -56,6 +54,7 @@ def login():
         user = User.query.filter_by(username=username).filter_by(password=password)
         if user.count() == 1:
             login_user(user.one())
+            #current_user = user.one()
             flash('Welcome back {0}'.format(username))
             try:
                 next = request.form['next']
@@ -82,12 +81,22 @@ def logout():
 
 @app.route('/plan', methods=['GET', 'POST'])
 def plan():
-    render(url_for('index'))
+    return redirect(url_for('index'))
 
 @app.route('/house', methods=['GET', 'POST'])
 def house():
-    render(url_for('index'))
+    return redirect(url_for('index'))
 
 @app.route('/find')
 def find():
-    render(url_for('index'))
+    if request.method == 'GET':
+        all_users = []
+        for usr in User.query.all():
+            if usr.username != current_user.username:
+                all_users.append(usr)
+        return render_template("find.html", all_users = all_users)
+    elif request.method == 'POST':
+        pass
+    else:
+        abort(405)
+    return redirect(url_for('index'))
