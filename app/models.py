@@ -56,6 +56,3 @@ class Meal(db.Model):
 
 	def __repr__(self):
 		return '<House: %r, Time: %r>' % (self.house, self.meal_time)
-
-
-
