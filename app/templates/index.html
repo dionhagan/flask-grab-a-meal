@@ -20,9 +20,9 @@
         <h1>Grab-A-Meal</h1>
       </div>
     </div>
-    <h1>Hi there, {{ user.username }}!</h1>
+    <h1>Hi there, {{ current_user.username }}!</h1>
     {% for meal in meals %}
-    <div><p>{{ meal.author.name }} is eating in <b>{{ meal.house }}</b> at <b>{{ meal.meal_time }}</b> </p></div>
+    <div><p>{{ meal.author.username }} is eating in <b>{{ meal.house }}</b> at <b>{{ meal.time }}</b> </p></div>
     {% endfor %}
 <div class="container">
   {% with messages = get_flashed_messages() %}
