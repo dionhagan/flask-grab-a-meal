@@ -1,5 +1,5 @@
 from flask import render_template, flash, redirect, url_for, session, request
-from app import app
+from app import app, db
 from .forms import LoginForm, RegistrationForm
 from .models import User, Meal, followers
 
@@ -9,8 +9,9 @@ from .models import User, Meal, followers
 @app.route('/index')
 def index():
     user = User.query.get(1) #marina
+    user2 = User.query.get(2)
     #list of dictionaries
-    meals = Meal.query.join(followers, (followers.c.followed_id == Meal.user_id)).filter(followers.c.follower_id == user.id).order_by(Meal.timestamp.desc())
+    meals = user.followed_posts().all()
     return render_template('index.html',
                            title='Home',
                            user=user,

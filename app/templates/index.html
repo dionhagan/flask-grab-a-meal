@@ -16,7 +16,7 @@
 	</div>
 	</div>
     <h1>Hi there, {{ user.name }}!</h1>
-    {% for meal in followed_posts() %}
+    {% for meal in meals %}
     <div><p>{{ meal.author.name }} is eating in <b>{{ meal.house }}</b> at <b>{{ meal.meal_time }}</b> </p></div>
     {% endfor %}
 {% endblock %}
