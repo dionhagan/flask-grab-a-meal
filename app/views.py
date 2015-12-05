@@ -12,14 +12,11 @@ from datetime import date
 @app.route('/index')
 @login_required
 def index():
-    user = User.query.get(1) #marina
-    user2 = User.query.get(2)
     #list of dictionaries
-    meals = user.followed_posts().all()
+    meals = current_user.followed_posts().all()
     return render_template('index.html',
                            title='Home',
-                           user=user,
-                           posts=meals)
+                           meals=meals)
 
 @app.route('/register', methods=['GET', 'POST'])
 def register():
@@ -86,26 +83,25 @@ def logout():
 @login_required
 def plan():
     if request.method == 'GET':
-        return render_template('plan.html')
+        houses = ['Adams', 'Annenberg', 'Cabot', 'Currier', 'Dunster', 'Eliot', 'Fly-By',
+                    'Hillel', 'Kirkland', 'Leverett', 'Lowell', 'Mather', 'Pforzheimer',
+                    'Quincy', 'Winthrop']
+        times = ['7:30 AM', '7:45 AM', '8:00 AM', '8:15 AM', '8:30 AM', '8:45 AM', '9:00 AM',
+                '9:15 AM', '9:30 AM', '9:45 AM', '10:00 AM', '11:30 AM', '11:45 AM', '12:00 PM', 
+                '12:15 PM', '12:30 PM', '12:45 PM', '1:00 PM', '1:30 PM', '1:45 PM', '2:00 PM',
+                '2:15 PM', '2:30 PM', '5:00 PM', '5:15 PM', '5:30 PM', '5:45 PM', '6:00 PM',
+                '6:15 PM', '6:30 PM', '6:45 PM', '7:00 PM', '7:15 PM']
+        return render_template('plan.html', houses=houses, times=times)
     elif request.method == 'POST':
+        print 'posted'
         user_id = current_user.id
-        house = request.form['txtHouse']
-        day = datetime.date.now()
-        time = request.form['txtTime']
-        meal_time = datetime.combine(day, time)
-        print time
-        if house is None:
-            flash('Please select a house.')
-            return render_template('plan.html')
-        if time is None:
-            flash('Please select a time.')
-            return render_template('plan.html')
-        else:
-            meal = Meal(house=house, meal_time=time, author=current_user)
-            db.session.add(meal)
-            db.session.commit()
-            flash('Thank you for submitting your meal!')
-            return redirect(url_for('index'))
+        house = request.form['house']
+        time = request.form['time']
+        meal = Meal(house=house, time=time, author=current_user)
+        db.session.add(meal)
+        db.session.commit()
+        flash('Thank you for submitting your meal!')
+        return redirect(url_for('index'))
     else:
         return abort(405)
 

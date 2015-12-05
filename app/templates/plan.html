@@ -13,23 +13,30 @@
       <form action="/plan" method="post">
 
 
-        <div class="form-group">
-          <label for="txtHouse">House</label>
-          <input type="text" class="form-control" id="txtHouse" name="txtHouse"/>
-        </div>
 
+      <div class="form-group">
+        <label>House</label>
+        <label>
+        <select name = "house">
+        {% for house in houses %}
+          <option value="{{ house }}">{{ house }}</option>
+        {% endfor %}
+        </select>
+        </label>
+      </div>
 
-        <div class="form-group">
-          <label for="txtTime">Time</label>
-          <input type="datetime-local" class="form-control" id="txtTime" name="txtTime"/>
-        </div>
+       <div class="form-group">
+        <label>Time</label>
+        <label>
+        <select name = "time">
+        {% for time in times %}
+          <option value="{{ time }}">{{ time }}</option>
+        {% endfor %}
+        </select>
+        </label>
+      </div>
 
-
-        <!-- {% if next %}
-        <input type="hidden" name="next" value="{{ next }}">
-        {% endif %} -->
         <button type="submit" class="btn btn-primary">Submit</button>
-
 
 
 
