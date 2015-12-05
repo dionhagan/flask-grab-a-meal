@@ -13,10 +13,10 @@
 	    <div class="span10">
 	      <!--Body content-->
 	    </div>
-	  </div>
+	</div>
 	</div>
     <h1>Hi there, {{ user.name }}!</h1>
-    {% for post in posts %}
-    <div><p>{{ post.author.name }} says: <b>{{ post.body }}</b></p></div>
+    {% for meal in followed_posts() %}
+    <div><p>{{ meal.author.name }} is eating in <b>{{ meal.house }}</b> at <b>{{ meal.meal_time }}</b> </p></div>
     {% endfor %}
 {% endblock %}

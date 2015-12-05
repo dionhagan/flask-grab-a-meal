@@ -47,6 +47,9 @@ class User(db.Model):
     def verify_password(self, password):
 		return check_password_hash(self.password_hash, password)
 
+    def followed_posts(self):
+        return Meal.query.join(followers, (followers.c.followed_id == Meal.user_id)).filter(followers.c.follower_id == self.id).order_by(Meal.timestamp.desc())
+
 class Meal(db.Model):
 	id = db.Column(db.Integer, primary_key=True)
 	house = db.Column(db.String(64))
