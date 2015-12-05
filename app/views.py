@@ -19,22 +19,20 @@ def index():
 
 @app.route('/register', methods=['GET', 'POST'])
 def register():
-    form = RegistrationForm()
-    if form.validate_on_submit():
-        user = User(email=form.email.data, username=form.username.data)
-        user.password(form.password.data)
+    form = RegistrationForm(request.form)
+    if request.method == 'POST' and form.validate_on_submit():
+        user = User(name=form.name.data, email=form.email.data,
+            password=form.password.data)
         db.session.add(user)
         db.session.commit()
-        flash('You can now login.')
+        flash('Thanks for registering')
         return redirect(url_for('login'))
     return render_template('register.html', form=form)
 
-
-#LOGIN
 @app.route('/login', methods=['GET', 'POST'])
 def login():
     form = LoginForm()
-    if form.validate_on_submit():
+    if request.method == 'POST' and form.validate_on_submit():
         user = User.query.filter_by(email=form.email.data).first()
         if user is not None and user.verify_password(form.password.data):
             session['user'] = user
