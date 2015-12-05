@@ -111,7 +111,7 @@ def plan():
 
 @app.route('/house', methods=['GET', 'POST'])
 def house():
-    return redirect(url_for('index'))
+    return render_template('house.html')
 
 @app.route('/find')
 def find():
@@ -122,7 +122,24 @@ def find():
                 all_users.append(usr)
         return render_template("find.html", all_users = all_users)
     elif request.method == 'POST':
-        pass
+        search = request.form['txtSearch']
+        to_follow = User.query.filter_by(username=search)
+        #session['to_follow'] = to_follow.one()
+        if to_follow.one() is not None:
+            usr = to_follow.one()
+            return redirect(url_for('follow', name=usr.username))
+        else:
+            flash('No user found')
+            return redirect(url_for('find'))
     else:
         abort(405)
     return redirect(url_for('index'))
+
+@app.route('/follow/<name>', methods=['GET', 'POST'])
+def follow(name):
+    if request.method == 'GET':
+        render_template("follow.html", user=name)
+    if request.method == 'POST':
+        redirect(url_for('index'))
+    else:
+        abort(405)

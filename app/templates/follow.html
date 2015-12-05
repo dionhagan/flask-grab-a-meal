@@ -10,10 +10,17 @@
   </div>
   <div class="row">
     <div class="col-md-8 col-md-offset-2">
-      <form action="/find" method="post">
+      Want to follow {{user}} ?
+      <form action="/follow" method="post">
         <div class="form-group">
-          <label for="txtSearch">Search</label>
-          <input type="text" class="form-control" id="txtSearch" name="txtSearch"/>
+          <label for="follow">Follow</label>
+          <input type="button" class="form-control" id="follow" name="follow"/>
+        </div>
+      </form>
+      <form action="/follow" method="post">
+        <div class="form-group">
+            <label for="back">Back</label>
+            <input type="button" href="/find" class="form-control" id="back" name="back"/>
         </div>
       </form>
     </div>
