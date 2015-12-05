@@ -5,6 +5,7 @@ from .forms import LoginForm, RegistrationForm
 from .models import User, Meal, followers
 from flask.ext.login import login_user, logout_user, login_required, current_user
 import datetime
+from datetime import date
 
 #HOME
 @app.route('/')
