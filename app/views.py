@@ -109,33 +109,32 @@ def plan():
 def house():
     return render_template('house.html')
 
-@app.route('/find')
-def find():
+@app.route('/follow', methods=['GET', 'POST'])
+def follow():
     if request.method == 'GET':
-        all_users = []
-        for usr in User.query.all():
-            if usr.username != current_user.username:
-                all_users.append(usr)
-        return render_template("find.html", all_users = all_users)
+        return render_template("find.html")
     elif request.method == 'POST':
         search = request.form['txtSearch']
-        to_follow = User.query.filter_by(username=search)
-        #session['to_follow'] = to_follow.one()
-        if to_follow.one() is not None:
-            usr = to_follow.one()
-            return redirect(url_for('follow', name=usr.username))
+        usr = User.query.filter_by(username=search)
+        results = usr.all()
+        if len(results) == 1:
+            usr = usr.one()
+            f = [str(u.username) for u in usr.followers.all()]
+            if search in f:
+                flash('Already following %s' % search)
+                return redirect(url_for('index'))
+            elif search == str(current_user.username):
+                flash('Users cannot follow themselves')
+                return redirect(url_for('index'))
+            else:
+                current_user.unfollow(usr)
+                new_follower = current_user.follow(usr)
+                db.session.add(new_follower)
+                db.session.commit()
+                flash('You are now following %s' % search)
+                return redirect(url_for('index'))
         else:
-            flash('No user found')
-            return redirect(url_for('find'))
-    else:
-        abort(405)
-    return redirect(url_for('index'))
-
-@app.route('/follow/<name>', methods=['GET', 'POST'])
-def follow(name):
-    if request.method == 'GET':
-        render_template("follow.html", user=name)
-    if request.method == 'POST':
-        redirect(url_for('index'))
+            flash('No user found with username "%s"' % search)
+            return redirect(url_for('index'))
     else:
         abort(405)
