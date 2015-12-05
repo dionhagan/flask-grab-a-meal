@@ -1,10 +1,10 @@
-from flask import render_template, flash, redirect, url_for, session, request
 from app import app, db
 from flask import render_template, flash, redirect, url_for, session, request, abort
 from app import app, db, login_manager
 from .forms import LoginForm, RegistrationForm
 from .models import User, Meal, followers
-from flask.ext.login import login_user, logout_user, login_required
+from flask.ext.login import login_user, logout_user, login_required, current_user
+import datetime
 
 #HOME
 @app.route('/')
@@ -47,8 +47,7 @@ def register():
 @app.route('/login', methods=['GET', 'POST'])
 def login():
     if request.method == 'GET':
-        if request.method == 'GET':
-            return render_template('login.html', next=request.args.get('next'))
+        return render_template('login.html', next=request.args.get('next'))
     elif request.method == 'POST':
         username = request.form['txtUsername']
         password = request.form['txtPassword']
@@ -56,6 +55,7 @@ def login():
         user = User.query.filter_by(username=username).filter_by(password=password)
         if user.count() == 1:
             login_user(user.one())
+            # current_user = user
             flash('Welcome back {0}'.format(username))
             try:
                 next = request.form['next']
@@ -81,8 +81,32 @@ def logout():
     return redirect(url_for('index'))
 
 @app.route('/plan', methods=['GET', 'POST'])
+@login_required
 def plan():
-    render(url_for('index'))
+    if request.method == 'GET':
+        return render_template('plan.html')
+    elif request.method == 'POST':
+        user_id = current_user.id
+        house = request.form['txtHouse']
+        day = datetime.date.now()
+        time = request.form['txtTime']
+        meal_time = datetime.combine(day, time)
+        print time
+        if house is None:
+            flash('Please select a house.')
+            return render_template('plan.html')
+        if time is None:
+            flash('Please select a time.')
+            return render_template('plan.html')
+        else:
+            meal = Meal(house=house, meal_time=time, author=current_user)
+            db.session.add(meal)
+            db.session.commit()
+            flash('Thank you for submitting your meal!')
+            return redirect(url_for('index'))
+    else:
+        return abort(405)
+
 
 @app.route('/house', methods=['GET', 'POST'])
 def house():
