@@ -1,22 +1,21 @@
-{% extends "base.html" %}
-
+{% extends 'base.html' %}
 {% block content %}
-	<div class="container-fluid">
-	  <div class="row-fluid">
-	    <div class="span2">
-	      <ul class="nav nav-tabs">
-		  <li><a href="/index" data-toggle="tab">Home</a></li>
-		  <li><a data-toggle="tab">Tell Your Friends</a></li>
-		  <li><a data-toggle="tab">Search by House</a></li>
-			</ul>
-	    </div>
-	    <div class="span10">
-	      <!--Body content-->
-	    </div>
-	</div>
-	</div>
-    <h1>Hi there, {{ user.name }}!</h1>
-    {% for meal in followed_posts() %}
-    <div><p>{{ meal.author.name }} is eating in <b>{{ meal.house }}</b> at <b>{{ meal.meal_time }}</b> </p></div>
-    {% endfor %}
+<div class="jumbotron">
+  <div class="container">
+    <h1>Grab-A-Meal</h1>
+  </div>
+</div>
+<div class="container">
+  {% with messages = get_flashed_messages() %}
+    {% if messages %}
+      {% for message in messages %}
+      <div class="row">
+        <div class="col-md-12">
+          <div class="alert alert-info" role="alert">{{ message }}</div>
+        </div>
+      </div>
+      {% endfor %}
+    {% endif %}
+  {% endwith %}
+</div>
 {% endblock %}

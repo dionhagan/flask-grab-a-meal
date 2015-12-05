@@ -1,18 +1,39 @@
-<!-- extend base layout -->
-{% extends "base.html" %}
-
+{% extends 'base.html' %}
 {% block content %}
-<h1>Sign In</h1>
-<form action="" method="post" name="login">
-    {{ form.hidden_tag() }}
-    <p>
-        Please enter your email, or select one of the providers below:<br>
-        {{ form.email(size=80) }}
-        {% for error in form.email.errors %}
-          <span style="color: red;">[{{error}}]</span>
-        {% endfor %}<br>
-    </p>
-    <p>{{ form.remember_me }} Remember Me</p>
-    <p><input type="submit" value="Sign In"></p>
-</form>
+<div class="container">
+  <div class="row">
+    <div class="col-md-12">
+      <center>
+        <h1>Login</h1>
+      </center>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-8 col-md-offset-2">
+      <form action="/login" method="post">
+        <div class="form-group">
+          <label for="txtUsername">Username</label>
+          <input type="text" class="form-control" id="txtUsername" name="txtUsername"/>
+        </div>
+        <div class="form-group">
+          <label for="txtPassword">Password</label>
+          <input type="password" class="form-control" id="txtPassword" name="txtPassword"/>
+        </div>
+        {% if next %}
+        <input type="hidden" name="next" value="{{ next }}">
+        {% endif %}
+        <button type="submit" class="btn btn-primary">Login</button>
+      </form>
+    </div>
+  </div>
+  {% with messages = get_flashed_messages() %}
+    {% if messages %}
+      {% for message in messages %}
+      <div class="row">
+        <div class="alert alert-info" role="alert">{{ message }}</div>
+      </div>
+      {% endfor %}
+    {% endif %}
+  {% endwith %}
+</div>
 {% endblock %}
