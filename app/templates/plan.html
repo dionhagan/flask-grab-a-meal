@@ -2,8 +2,7 @@
 {% block content %}
 <div class="container">
   <div class="row">
-    <!-- <div class="col-md-12"> -->
-    <div class="mainselection">
+    <div class="col-md-12">
       <center>
         <h1>Planning a meal? Tell your friends!</h1>
       </center>
@@ -13,8 +12,8 @@
     <div class="col-md-8 col-md-offset-2">
       <form action="/plan" method="post">
         <center>
-          <div class="mainselection">
-            <label>House</label>
+          <div class="dropdown">
+            <label>House: </label>
             <label>
             <select name = "house">
             {% for house in houses %}
@@ -23,8 +22,8 @@
             </select>
             </label>
           </div>
-           <div class="mainselection">
-            <label>Time</label>
+           <div class="dropdown">
+            <label>Time:  </label>
             <label>
             <select name = "time">
             {% for time in times %}

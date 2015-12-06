@@ -1,21 +1,26 @@
 
-/*
-.mainselection {
-    border: solid 1px red;
+.dropdown {
     width:500px;
-    margin-left:50px;
-    background: url("images/dropdown_arrow.png") no-repeat #fff 319px 2px;
-     dropdown_arrow.png is a 31x28 image 
-    height:70px;
+    margin-left:70px;
+    margin-right:70px;
+    margin-top:5px;
+    margin-bottom:5px;
+    /*background: url("images/dropdown_arrow.png") no-repeat #fff 319px 2px;
+     dropdown_arrow.png is a 31x28 image */
+    height:50px;
+    text-align:center;
+    text-indent:10px;
 }
 
 select {
-    border:0;
-    background:transparent;
+    border:30px;
+    background:solid #d8d8d8;
     height:40px;
     border:1px solid #d8d8d8;
-    width:350px;
+    width:200px;
+    text-align:center;
+    text-indent:5px;
     -webkit-appearance: none;
 }
 
-*/
+
