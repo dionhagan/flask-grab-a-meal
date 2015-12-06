@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+{% block content %}
+	<div class="container-fluid">
+	  <div class="row-fluid">
+	    <div class="span2">
+	    <div class="span10">
+	      <!--Body content-->
+	    </div>
+	  </div>
+	</div>
+	<div class="jumbotron">
+  	  <div class="container">
+        <h1 align="left">About</h1><br>
+        
+        
+      </div>
+  </div>
+  <div class="container">
+  {% with messages = get_flashed_messages() %}
+    {% if messages %}
+      {% for message in messages %}
+      <div class="row">
+        <div class="col-md-12">
+          <div class="alert alert-info" role="alert">{{ message }}</div>
+        </div>
+      </div>
+      {% endfor %}
+    {% endif %}
+  {% endwith %}
+  </div>
+{% endblock %}
