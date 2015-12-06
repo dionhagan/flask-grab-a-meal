@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<!-- meals = current_user.followed_posts().order_by(Meal.timestamp) -->
+<!--  usr = User.query.filter_by(username=search)
+        results = usr.all() -->
+
+
+<div class="jumbotron">
+  	  <div class="container">
+  	  	<h1 align="left"> {{ location }}:</h1><br>
+        {% for meal in meals %}
+        {% if meal.house == location %}
+        <div><p><b>{{ meal.author.username }}</b> is eating in <b>{{ meal.house }}</b> at <b>{{ meal.time }}</b> (posted at {{meal.date}}) </p></div>
+        {% endif %}
+        {% endfor %}
+      </div>
+  </div>
+
+  {% endblock %}

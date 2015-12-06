@@ -113,7 +113,22 @@ def plan():
 
 @app.route('/house', methods=['GET', 'POST'])
 def house():
-    return render_template('house.html')
+    if request.method == 'GET':
+        locations = ['Adams', 'Annenberg', 'Cabot', 'Currier', 'Dunster', 'Eliot', 'Fly-By',
+                    'Hillel', 'Kirkland', 'Leverett', 'Lowell', 'Mather', 'Pforzheimer',
+                    'Quincy', 'Winthrop']
+        return render_template("house.html", locations=locations)
+    elif request.method == 'POST':
+        location = request.form["location"]
+        meals = current_user.followed_posts().order_by(Meal.timestamp)
+        return render_template("houseFriends.html", location=location, meals = meals)
+        abort(405)
+
+@app.route('/houseFriends')
+def houseFriends():
+    meals = current_user.followed_posts().order_by(Meal.timestamp)
+    return render('houseFriends.html')
+
 
 @app.route('/follow', methods=['GET', 'POST'])
 def follow():
