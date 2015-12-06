@@ -23,4 +23,25 @@ select {
     -webkit-appearance: none;
 }
 
+<<<<<<< HEAD
 
+=======
+*/
+
+.navbar {
+    color: #FFFFFF;
+    background-color: rgb(150, 0, 0);
+}
+
+.navbar .nav > li > a {
+    color: #FFFFFF;
+}
+
+.navbar-brand {
+    color: red;
+}
+
+.navbar-brand > a {
+    color: red;
+}
+>>>>>>> c545555e9dddd219567cdffbaa04bb907584f0a6
