@@ -8,8 +8,10 @@ import datetime
 from datetime import date
 
 def parse_timestamp(time):
-    time = str(time)
-    return time[0:16]
+    if time:
+        time = str(time)[0:16]
+        return time
+    return '"Before Timestamp Implementation"'
 
 #HOME
 @app.route('/')
@@ -159,6 +161,6 @@ def follow():
                 return redirect(url_for('index'))
         else:
             flash('No user found with username "%s"' % search)
-            return redirect(url_for('index'))
+            return render_template("find.html")
     else:
         abort(405)

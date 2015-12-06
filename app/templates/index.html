@@ -10,7 +10,7 @@
 	</div>
 	<div class="jumbotron">
   	  <div class="container">
-        <h1 align="left">Find your friends, {{ current_user.username }}!</h1><br>
+        <h1 align="left">Hi there, {{ current_user.username }}!</h1><br>
         {% for meal in meals %}
         <div><p><b>{{ meal.author.username }}</b> is eating in <b>{{ meal.house }}</b> at <b>{{ meal.time }}</b> (posted at {{meal.date}}) </p></div>
         {% endfor %}
