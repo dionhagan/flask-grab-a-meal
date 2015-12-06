@@ -40,16 +40,3 @@ select {
 .navbar-brand > a {
     color: red;
 }
-
-.btn-danger {
-    background-color: rgb(150, 0, 0);
-}
-
-.jumbotron {
-    color: #000000;
-    background-color: rgb(150, 0, 0)
-}
-
-.jumbotron > .container > h1 {
-    color: #FFFFFF;
-}
