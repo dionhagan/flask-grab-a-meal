@@ -40,3 +40,30 @@ select {
 .navbar-brand > a {
     color: red;
 }
+
+.btn-danger {
+    background-color: rgb(150, 0, 0);
+}
+
+.jumbotron {
+    color: #000000;
+    background-color: rgb(150, 0, 0)
+}
+
+.jumbotron-minor {
+    padding: 30px 15px;
+    margin-bottom: 30px;
+    color: inherit;
+    background-color: #eee;
+}
+
+.jumbotron > .container > h1 {
+    color: #FFFFFF;
+}
+
+.jumbotron-about {
+    padding: 30px 15px;
+    margin-bottom: 30px;
+    color: #FFFFFF;
+    background-color: rgb(150, 0, 0);
+}
