@@ -1,11 +1,11 @@
 
-
+/*
 .mainselection {
     border: solid 1px red;
     width:500px;
     margin-left:50px;
     background: url("images/dropdown_arrow.png") no-repeat #fff 319px 2px;
-    /* dropdown_arrow.png is a 31x28 image */
+     dropdown_arrow.png is a 31x28 image 
     height:70px;
 }
 
@@ -18,3 +18,4 @@ select {
     -webkit-appearance: none;
 }
 
+*/
