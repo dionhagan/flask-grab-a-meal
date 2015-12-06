@@ -11,35 +11,29 @@
   <div class="row">
     <div class="col-md-8 col-md-offset-2">
       <form action="/plan" method="post">
-
-
-
-      <div class="form-group">
-        <label>House</label>
-        <label>
-        <select name = "house">
-        {% for house in houses %}
-          <option value="{{ house }}">{{ house }}</option>
-        {% endfor %}
-        </select>
-        </label>
-      </div>
-
-       <div class="form-group">
-        <label>Time</label>
-        <label>
-        <select name = "time">
-        {% for time in times %}
-          <option value="{{ time }}">{{ time }}</option>
-        {% endfor %}
-        </select>
-        </label>
-      </div>
-
-        <button type="submit" class="btn btn-primary">Submit</button>
-
-
-
+        <center>
+          <div class="form-group input-lg mainselection">
+            <label>House</label>
+            <label>
+            <select name = "house">
+            {% for house in houses %}
+              <option value="{{ house }}">{{ house }}</option>
+            {% endfor %}
+            </select>
+            </label>
+          </div>
+           <div class="form-group input-lg">
+            <label>Time</label>
+            <label>
+            <select name = "time">
+            {% for time in times %}
+              <option value="{{ time }}">{{ time }}</option>
+            {% endfor %}
+            </select>
+            </label>
+          </div>
+          <button type="submit" class="btn btn-danger btn-lg">Submit</button>
+        </center>
       </form>
     </div>
   </div>

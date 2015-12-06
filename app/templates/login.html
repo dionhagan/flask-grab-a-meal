@@ -11,6 +11,7 @@
   <div class="row">
     <div class="col-md-8 col-md-offset-2">
       <form action="/login" method="post">
+        <center>
         <div class="form-group">
           <label for="txtUsername">Username</label>
           <input type="text" class="form-control" id="txtUsername" name="txtUsername"/>
@@ -22,7 +23,8 @@
         {% if next %}
         <input type="hidden" name="next" value="{{ next }}">
         {% endif %}
-        <button type="submit" class="btn btn-primary">Login</button>
+        <button type="submit" class="btn btn-danger btn-lg">Login</button>
+      </center>
       </form>
     </div>
   </div>
