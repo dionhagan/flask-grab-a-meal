@@ -2,6 +2,7 @@
   <head>
     <title></title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.4/css/bootstrap.min.css">
+    <link rel="stylesheet" href="../static/css/styles.css">
     <style>
     body {
       padding-top: 65px;
@@ -24,9 +25,9 @@
           <ul class="nav navbar-nav">
             <li><a href="/">Home</a></li>
             {% if current_user.is_authenticated %}
-              <li><a href="/plan">Plan a meal</a></li>
+              <li><a href="/plan">Plan a Meal</a></li>
               <li><a href="/house">By House</a></li>
-              <li><a href="/follow">Follow friends</a></li>
+              <li><a href="/follow">Follow Friends</a></li>
               <li><a href="/logout">Logout</a></li>
             {% else %}
               <li><a href="/login">Login</a></li>

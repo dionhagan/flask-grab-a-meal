@@ -1,0 +1,20 @@
+
+
+.mainselection {
+    border: solid 1px red;
+    width:500px;
+    margin-left:50px;
+    background: url("images/dropdown_arrow.png") no-repeat #fff 319px 2px;
+    /* dropdown_arrow.png is a 31x28 image */
+    height:70px;
+}
+
+select {
+    border:0;
+    background:transparent;
+    height:40px;
+    border:1px solid #d8d8d8;
+    width:350px;
+    -webkit-appearance: none;
+}
+
