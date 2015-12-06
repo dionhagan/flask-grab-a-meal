@@ -41,6 +41,11 @@ select {
     color: red;
 }
 
+.textbar{
+    margin-top:20px;
+    margin-bottom:20px;
+}
+
 .btn-danger {
     background-color: rgb(150, 0, 0);
 }
