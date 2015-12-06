@@ -114,6 +114,7 @@ def plan():
         return abort(405)
 
 @app.route('/house', methods=['GET', 'POST'])
+@login_required
 def house():
     if request.method == 'GET':
         locations = ['Adams', 'Annenberg', 'Cabot', 'Currier', 'Dunster', 'Eliot', 'Fly-By',
@@ -136,6 +137,7 @@ def house():
 
 
 @app.route('/follow', methods=['GET', 'POST'])
+@login_required
 def follow():
     if request.method == 'GET':
         return render_template("find.html")
@@ -164,3 +166,7 @@ def follow():
             return render_template("find.html")
     else:
         abort(405)
+
+@app.route('/about')
+def about():
+    return render_template('about.html')

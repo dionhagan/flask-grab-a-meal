@@ -41,8 +41,20 @@ select {
     color: red;
 }
 
-
 .textbar{
     margin-top:20px;
     margin-bottom:20px;
+}
+
+.btn-danger {
+    background-color: rgb(150, 0, 0);
+}
+
+.jumbotron {
+    color: #000000;
+    background-color: rgb(150, 0, 0)
+}
+
+.jumbotron > .container > h1 {
+    color: #FFFFFF;
 }
