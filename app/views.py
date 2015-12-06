@@ -127,6 +127,7 @@ def house():
         posts = current_user.followed_posts().order_by(Meal.timestamp)
         for meal in posts:
             if meal.house == location:
+                meal.date = parse_timestamp(meal.timestamp)
                 meals.append(meal)
         if len(meals) > 0:
             return render_template("houseFriends.html", location=location, meals = meals)

@@ -1,0 +1,30 @@
+#!/bin/bash
+
+# This script does the following:
+# 1/ capture and download the latest backup
+# 2/ load it to your local database
+# 3/ run your app and open Safari
+
+# Just replace any uppercase string with your own data
+
+#
+# CAPTURE
+#
+cd ~/projects/flask-grab-a-meal/db_repository
+heroku pgbackups:capture --expire --app grabameal
+file_path="db_$(date +%Y_%m_%d-%H_%M_%S).dump"
+curl `heroku pgbackups:url --app grabameal` > $file_path
+
+#
+# LOAD
+#
+pg_restore --verbose --clean --no-acl --no-owner -h localhost -u YOUR_LOCAL_DB_USERNAME -d YOUR_LOCAL_DB_NAME $file_path
+cd ~/projects/ # for me something like ~/Sites/app_name
+
+#
+# RUN
+#
+# Tell to launch Safari after 10 seconds, which should be enough to load the server
+eval "sleep 10; open -a Safari http://localhost:3001/" &
+# Run your app. I use an environment with caching which is closer to the production environment than my standard dev environment.
+bundle exec thin start -e dev_with_caching -p 3001
