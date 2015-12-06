@@ -120,14 +120,17 @@ def house():
         return render_template("house.html", locations=locations)
     elif request.method == 'POST':
         location = request.form["location"]
-        meals = current_user.followed_posts().order_by(Meal.timestamp)
-        return render_template("houseFriends.html", location=location, meals = meals)
-        abort(405)
-
-@app.route('/houseFriends')
-def houseFriends():
-    meals = current_user.followed_posts().order_by(Meal.timestamp)
-    return render('houseFriends.html')
+        meals = []
+        posts = current_user.followed_posts().order_by(Meal.timestamp)
+        for meal in posts:
+            if meal.house == location:
+                meals.append(meal)
+        if len(meals) > 0:
+            return render_template("houseFriends.html", location=location, meals = meals)
+        else:
+            flash('No meals found for %s' % location)
+            return redirect(url_for('house'))
+    abort(405)
 
 
 @app.route('/follow', methods=['GET', 'POST'])

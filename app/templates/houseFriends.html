@@ -10,11 +10,13 @@
   	  <div class="container">
   	  	<h1 align="left"> {{ location }}:</h1><br>
         {% for meal in meals %}
-        {% if meal.house == location %}
-        <div><p><b>{{ meal.author.username }}</b> is eating in <b>{{ meal.house }}</b> at <b>{{ meal.time }}</b> (posted at {{meal.date}}) </p></div>
-        {% endif %}
+            <div>
+              <p>
+                <b>{{ meal.author.username }}</b> is eating in <b>{{ meal.house }}</b> at <b>{{ meal.time }}</b> (posted at {{meal.date}})
+              </p>
+            </div>
         {% endfor %}
       </div>
   </div>
 
-  {% endblock %}
+{% endblock %}
