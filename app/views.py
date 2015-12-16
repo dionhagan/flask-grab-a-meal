@@ -171,3 +171,13 @@ def follow():
 @app.route('/about')
 def about():
     return render_template('about.html')
+
+@app.route('/friends')
+def friends():
+    if request.method == 'GET':
+        friends = current_user.followed.all()
+        return render_template("friends.html", friends=friends)
+    elif request.method == 'POST':
+        friend = request.form['']
+    else:
+        abort(405)

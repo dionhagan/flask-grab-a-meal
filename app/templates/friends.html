@@ -1,0 +1,34 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="jumbotron-minor">
+<div class="container">
+  <div class="row">
+    <div class="col-md-8 col-md-offset-2">
+      <div class="container">
+        <h1 align="left">Friends you follow, {{ current_user.username }}!</h1><br>
+        {% for friend in friends %}
+        <div>
+          <h3>
+            <b>{{friend.username}}</b>
+            <br>
+            <form action="/friends" method="post">
+              <button type="submit" class="btn btn-danger btn-md">Go to Profile</button>
+            </form>
+          </h3>
+        </div>
+        {% endfor %}
+      </div>
+    </div>
+  </div>
+  {% with messages = get_flashed_messages() %}
+    {% if messages %}
+      {% for message in messages %}
+      <div class="row">
+        <div class="alert alert-info" role="alert">{{ message }}</div>
+      </div>
+      {% endfor %}
+    {% endif %}
+  {% endwith %}
+</div>
+</div>
+{% endblock %}

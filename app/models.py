@@ -14,11 +14,11 @@ class User(UserMixin, db.Model):
     password = db.Column(db.String(128))
     meals = db.relationship('Meal', backref='author', lazy='dynamic')
     authenticated = db.Column(db.Boolean, default=False)
-    followed = db.relationship('User', 
-                               secondary=followers, 
-                               primaryjoin=(followers.c.follower_id == id), 
-                               secondaryjoin=(followers.c.followed_id == id), 
-                               backref=db.backref('followers', lazy='dynamic'), 
+    followed = db.relationship('User',
+                               secondary=followers,
+                               primaryjoin=(followers.c.follower_id == id),
+                               secondaryjoin=(followers.c.followed_id == id),
+                               backref=db.backref('followers', lazy='dynamic'),
                                lazy='dynamic')
 
     def __repr__(self):
