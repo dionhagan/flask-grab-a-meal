@@ -174,10 +174,17 @@ def about():
 
 @app.route('/friends')
 def friends():
-    if request.method == 'GET':
-        friends = current_user.followed.all()
-        return render_template("friends.html", friends=friends)
-    elif request.method == 'POST':
-        friend = request.form['']
+    friends = current_user.followed.all()
+    if friends:
+        if request.method == 'GET':
+            return render_template("friends.html", friends=friends)
+        elif request.method == 'POST':
+            for friend in friends:
+                if request.form['submit'] == friend.username:
+                    pass
+                    #render_template("profile.html", friend=friend)
+            alert('This friend does not exist')
+        else:
+            abort(405)
     else:
-        abort(405)
+        print 'You are not following any other users'
