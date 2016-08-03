@@ -11,13 +11,14 @@ from datetime import date
     Util Functions
 '''
 
+# clean timestamps
 def parse_timestamp(time):
     if time:
         time = str(time)[0:16]
         return time
     return '"Before Timestamp Implementation"'
 
-# get user from db
+# get user object from db
 def get_user(search, url='/'):
     usr = User.query.filter_by(username=search)
     results = usr.all()
@@ -27,7 +28,18 @@ def get_user(search, url='/'):
     else:
         flash('No user found with username "%s"' % search)
         return redirect(url_for(url))
-
+        
+def most_visited(usr):
+    from operator import itemgetter
+    from collections import defaultdict
+    meals = defaultdict(int)
+    posts = usr.meals
+    if posts:
+        for meal in posts:
+            meals[meal.house] += 1
+        return max(meals.iteritems(), key=itemgetter(1))[0]
+    return 'None'
+    
 '''
     URL Routing
 '''
@@ -229,12 +241,13 @@ def friends(username):
                 return redirect("/profile/%s" % username)
     else:
         abort(405)
+        
 @app.route('/profile/<username>', methods=['GET'])
 @login_required
 def profile(username):
     if request.method == 'GET':
         usr = get_user(username)
         friends = usr.followed.all()
-        return render_template("profile.html", user=usr, nfriends=len(friends))
+        return render_template("profile.html", user=usr, nfriends=len(friends), most_vis=most_visited(usr))
     else:
         abort(405)
