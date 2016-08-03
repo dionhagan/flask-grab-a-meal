@@ -40,19 +40,6 @@ class User(UserMixin, db.Model):
     def followed_posts(self):
         return Meal.query.join(followers, (followers.c.followed_id == Meal.user_id)).filter(followers.c.follower_id == self.id).order_by(Meal.timestamp.desc())
 
-	id = db.Column(db.Integer, primary_key=True)
-	username = db.Column(db.String(64), index=True, unique=True)
-	email = db.Column(db.String(120), index=True, unique=True)
-	password = db.Column(db.String(128))
-	meals = db.relationship('Meal', backref='author', lazy='dynamic')
-	authenticated = db.Column(db.Boolean, default=False)
-	followed = db.relationship('User', 
-							   secondary=followers, 
-							   primaryjoin=(followers.c.follower_id == id), 
-							   secondaryjoin=(followers.c.followed_id == id), 
-							   backref=db.backref('followers', lazy='dynamic'), 
-							   lazy='dynamic')
-
 class Meal(db.Model):
 	id = db.Column(db.Integer, primary_key=True)
 	house = db.Column(db.String(64))

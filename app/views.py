@@ -7,11 +7,30 @@ from flask.ext.login import login_user, logout_user, login_required, current_use
 import datetime
 from datetime import date
 
+''' 
+    Util Functions
+'''
+
 def parse_timestamp(time):
     if time:
         time = str(time)[0:16]
         return time
     return '"Before Timestamp Implementation"'
+
+# get user from db
+def get_user(search, url='/'):
+    usr = User.query.filter_by(username=search)
+    results = usr.all()
+    if len(results) == 1:
+        usr = usr.one()
+        return usr
+    else:
+        flash('No user found with username "%s"' % search)
+        return redirect(url_for(url))
+
+'''
+    URL Routing
+'''
 
 #HOME
 @app.route('/')
@@ -134,7 +153,8 @@ def house():
         else:
             flash('No meals found for %s' % location)
             return redirect(url_for('house'))
-    abort(405)
+    else:
+        abort(405)
 
 
 @app.route('/follow', methods=['GET', 'POST'])
@@ -172,19 +192,34 @@ def follow():
 def about():
     return render_template('about.html')
 
-@app.route('/friends')
-def friends():
-    friends = current_user.followed.all()
-    if friends:
-        if request.method == 'GET':
-            return render_template("friends.html", friends=friends)
-        elif request.method == 'POST':
-            for friend in friends:
-                if request.form['submit'] == friend.username:
-                    pass
-                    #render_template("profile.html", friend=friend)
-            alert('This friend does not exist')
+
+# in progress: eventually allow this to show other friends' friends lists
+@app.route('/friends/<username>')
+def friends(username):
+    if request.method == 'GET':
+        # current user's own list of friends
+        if username == current_user.username:
+            friends = current_user.followed.all()
+            if friends:
+                return render_template("friends.html", friends=friends, user=current_user)
+            else:
+                print 'You are not following any other users'
+        # user's friend's list of friends
         else:
-            abort(405)
+            usr = get_user(username)
+            friends = usr.followed.all()
+            if friends:
+                return render_template("friends.html", friends=friends, user=usr)
+            else:
+                flash('%s is not following any users' % usr.username)
+                return redirect("/profile/%s" % username)
     else:
-        print 'You are not following any other users'
+        abort(405)
+@app.route('/profile/<username>')
+def profile(username):
+    if request.method == 'GET':
+        usr = get_user(username)
+        friends = usr.followed.all()
+        return render_template("profile.html", user=usr, nfriends=len(friends))
+    else:
+        abort(405)
