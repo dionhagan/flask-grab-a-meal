@@ -14,8 +14,10 @@
         {% for meal in meals %}
         <div>
           <p>
-            <a style="color: black" href="/profile/{{meal.author.username}}"><b>{{ meal.author.username }}</b></a>
-            is eating in <b>{{ meal.house }}</b> at <b>{{ meal.time }}</b> (posted at {{meal.date}})
+            <a class="homelinks" href="/profile/{{meal.author.username}}"><b>{{ meal.author.username }}</b></a>
+            is eating in 
+            <a class="homelinks" href="/house-feed/{{meal.house}}"><b>{{ meal.house }}</b></a>
+            at <b>{{ meal.time }}</b> (posted at {{meal.date}})
           </p>
         </div>
         {% endfor %}

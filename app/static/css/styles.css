@@ -72,3 +72,11 @@ select {
     color: #FFFFFF;
     background-color: rgb(150, 0, 0);
 }
+
+.homelinks {
+    color: black;
+}
+
+.homelinks:hover {
+    color: white;
+}

@@ -149,10 +149,24 @@ def house():
                 meal.date = parse_timestamp(meal.timestamp)
                 meals.append(meal)
         if len(meals) > 0:
-            return render_template("houseFriends.html", location=location, meals = meals)
+            return redirect('/house-feed/%s' % location)
         else:
             flash('No meals found for %s' % location)
             return redirect(url_for('house'))
+    else:
+        abort(405)
+        
+@app.route('/house-feed/<loc>')
+@login_required
+def house_feed(loc):
+    if request.method == 'GET':
+        meals = []
+        posts = current_user.followed_posts().order_by(Meal.timestamp)
+        for meal in posts:
+            if meal.house == loc:
+                meal.date = parse_timestamp(meal.timestamp)
+                meals.append(meal)
+        return render_template("houseFriends.html", location=loc, meals=meals)
     else:
         abort(405)
 
@@ -195,6 +209,7 @@ def about():
 
 # in progress: eventually allow this to show other friends' friends lists
 @app.route('/friends/<username>')
+@login_required
 def friends(username):
     if request.method == 'GET':
         # current user's own list of friends
@@ -216,6 +231,7 @@ def friends(username):
     else:
         abort(405)
 @app.route('/profile/<username>')
+@login_required
 def profile(username):
     if request.method == 'GET':
         usr = get_user(username)
