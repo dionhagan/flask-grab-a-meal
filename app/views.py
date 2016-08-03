@@ -34,10 +34,10 @@ def most_visited(usr):
     from collections import defaultdict
     meals = defaultdict(int)
     posts = usr.meals
-    if posts:
+    if posts.count() > 1:
         for meal in posts:
             meals[meal.house] += 1
-        return max(meals.iteritems(), key=itemgetter(1))[0]
+        return max(meals, key=meals.get)
     return 'None'
     
 '''
