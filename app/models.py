@@ -53,25 +53,6 @@ class User(UserMixin, db.Model):
 							   backref=db.backref('followers', lazy='dynamic'), 
 							   lazy='dynamic')
 
-	def __repr__(self):
-		return '<User %r>' % (self.username)
-
-	def follow(self, user):
-		if not self.is_following(user):
-			self.followed.append(user)
-			return self
-
-	def unfollow(self, user):
-		if self.is_following(user):
-			self.followed.remove(user)
-			return self
-
-	def is_following(self, user):
-		return self.followed.filter(followers.c.followed_id == user.id).count()
-
-	def followed_posts(self):
-		return Meal.query.join(followers, (followers.c.followed_id == Meal.user_id)).filter(followers.c.follower_id == self.id).order_by(Meal.timestamp.desc())
-
 class Meal(db.Model):
 	id = db.Column(db.Integer, primary_key=True)
 	house = db.Column(db.String(64))
