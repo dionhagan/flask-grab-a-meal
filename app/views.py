@@ -156,7 +156,7 @@ def house():
     else:
         abort(405)
         
-@app.route('/house-feed/<loc>')
+@app.route('/house-feed/<loc>', methods=['GET'])
 @login_required
 def house_feed(loc):
     if request.method == 'GET':
@@ -202,13 +202,12 @@ def follow():
     else:
         abort(405)
 
-@app.route('/about')
+@app.route('/about', methods=['GET'])
 def about():
     return render_template('about.html')
 
 
-# in progress: eventually allow this to show other friends' friends lists
-@app.route('/friends/<username>')
+@app.route('/friends/<username>', methods=['GET'])
 @login_required
 def friends(username):
     if request.method == 'GET':
@@ -230,7 +229,7 @@ def friends(username):
                 return redirect("/profile/%s" % username)
     else:
         abort(405)
-@app.route('/profile/<username>')
+@app.route('/profile/<username>', methods=['GET'])
 @login_required
 def profile(username):
     if request.method == 'GET':
