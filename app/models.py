@@ -6,6 +6,11 @@ followers = db.Table('followers',
 	db.Column('follower_id', db.Integer, db.ForeignKey('user.id')),
 	db.Column('followed_id', db.Integer, db.ForeignKey('user.id'))
 	)
+	
+messages = db.Table('messages',
+    db.Column('sender_id', db.Integer, db.ForeignKey('user.id')),
+    db.Column('receiver_id', db.Integer, db.ForeignKey('user.id'))
+    )
 
 class User(UserMixin, db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -20,6 +25,9 @@ class User(UserMixin, db.Model):
                                secondaryjoin=(followers.c.followed_id == id),
                                backref=db.backref('followers', lazy='dynamic'),
                                lazy='dynamic')
+    # messages_sent = db.relationship('Message',
+    #                                 foreign_keys=[Message]
+    #                                 )
 
     def __repr__(self):
         return '<User %r>' % (self.username)
@@ -51,3 +59,13 @@ class Meal(db.Model):
 
 	def __repr__(self):
 		return '<House: %r, Time: %r>' % (self.house, self.time)
+		
+# class Message(db.Model):
+#     id = db.Column(db.Integer, primary_key=True)
+#     timestamp = db.Column(db.DateTime)
+#     text = db.Column(db.String(500))
+#     sender = db.Column(db.Integer, db.ForeignKey('user.id'))
+#     receiver = db.Column(db.Integer, db.ForeignKey('user.id'))
+    
+#     def __repr__(self):
+#         return 'From: %r\nTo: %r\nSent: %r' % (self.sender_id, self.receiver_id, self.timestamp)

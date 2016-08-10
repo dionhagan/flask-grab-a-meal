@@ -1,11 +1,11 @@
-from app import app, db
+from app import db
 from flask import render_template, flash, redirect, url_for, session, request, abort
-from app import app, db, login_manager
-from .forms import LoginForm, RegistrationForm
-from .models import User, Meal, followers
+from app import db, login_manager
+from app.models import User, Meal, followers
 from flask.ext.login import login_user, logout_user, login_required, current_user
 import datetime
 from datetime import date
+from app.main import main
 
 ''' 
     Util Functions
@@ -27,10 +27,10 @@ def get_user(search, url='/'):
         return usr
     else:
         flash('No user found with username "%s"' % search)
-        return redirect(url_for(url))
-        
+        return redirect(url_for('main.' + url))
+
+# get most visited house location    
 def most_visited(usr):
-    from operator import itemgetter
     from collections import defaultdict
     meals = defaultdict(int)
     posts = usr.meals
@@ -45,8 +45,8 @@ def most_visited(usr):
 '''
 
 #HOME
-@app.route('/')
-@app.route('/index')
+@main.route('/')
+@main.route('/index')
 @login_required
 def index():
     #list of dictionaries
@@ -57,7 +57,7 @@ def index():
                            title='Home',
                            meals=meals)
 
-@app.route('/register', methods=['GET', 'POST'])
+@main.route('/register', methods=['GET', 'POST'])
 def register():
     if request.method == 'GET':
         return render_template('register.html')
@@ -74,14 +74,14 @@ def register():
             db.session.commit()
 
             flash('You have registered the username {0}. Please login'.format(username))
-            return redirect(url_for('login'))
+            return redirect(url_for('main.login'))
         else:
             flash('The username {0} is already in use.  Please try a new username.'.format(username))
-            return redirect(url_for('register'))
+            return redirect(url_for('main.register'))
     else:
         abort(405)
 
-@app.route('/login', methods=['GET', 'POST'])
+@main.route('/login', methods=['GET', 'POST'])
 def login():
     if request.method == 'GET':
         return render_template('login.html', next=request.args.get('next'))
@@ -99,10 +99,10 @@ def login():
                 next = request.form['next']
                 return redirect(next)
             except:
-                return redirect(url_for('index'))
+                return redirect(url_for('main.index'))
         else:
             flash('Invalid login')
-            return redirect(url_for('login'))
+            return redirect(url_for('main.login'))
     else:
         return abort(405)
 
@@ -113,12 +113,12 @@ def user_loader(user_id):
         return user.one()
     return None
 
-@app.route('/logout')
+@main.route('/logout')
 def logout():
     logout_user()
-    return redirect(url_for('index'))
+    return redirect(url_for('main.index'))
 
-@app.route('/plan', methods=['GET', 'POST'])
+@main.route('/plan', methods=['GET', 'POST'])
 @login_required
 def plan():
     if request.method == 'GET':
@@ -140,11 +140,11 @@ def plan():
         db.session.add(meal)
         db.session.commit()
         flash('Thank you for submitting your meal!')
-        return redirect(url_for('index'))
+        return redirect(url_for('main.index'))
     else:
         return abort(405)
 
-@app.route('/house', methods=['GET', 'POST'])
+@main.route('/house', methods=['GET', 'POST'])
 @login_required
 def house():
     if request.method == 'GET':
@@ -164,11 +164,11 @@ def house():
             return redirect('/house-feed/%s' % location)
         else:
             flash('No meals found for %s' % location)
-            return redirect(url_for('house'))
+            return redirect(url_for('main.house'))
     else:
         abort(405)
         
-@app.route('/house-feed/<loc>', methods=['GET'])
+@main.route('/house-feed/<loc>', methods=['GET'])
 @login_required
 def house_feed(loc):
     if request.method == 'GET':
@@ -183,7 +183,7 @@ def house_feed(loc):
         abort(405)
 
 
-@app.route('/follow', methods=['GET', 'POST'])
+@main.route('/follow', methods=['GET', 'POST'])
 @login_required
 def follow():
     if request.method == 'GET':
@@ -197,29 +197,29 @@ def follow():
             f = [str(u.username) for u in usr.followers.all()]
             if search in f:
                 flash('Already following %s' % search)
-                return redirect(url_for('index'))
+                return redirect(url_for('main.index'))
             elif search == str(current_user.username):
                 flash('Users cannot follow themselves')
-                return redirect(url_for('index'))
+                return redirect(url_for('main.index'))
             else:
                 current_user.unfollow(usr)
                 new_follower = current_user.follow(usr)
                 db.session.add(new_follower)
                 db.session.commit()
                 flash('You are now following %s' % search)
-                return redirect(url_for('index'))
+                return redirect(url_for('main.index'))
         else:
             flash('No user found with username "%s"' % search)
             return render_template("find.html")
     else:
         abort(405)
 
-@app.route('/about', methods=['GET'])
+@main.route('/about', methods=['GET'])
 def about():
     return render_template('about.html')
 
 
-@app.route('/friends/<username>', methods=['GET'])
+@main.route('/friends/<username>', methods=['GET'])
 @login_required
 def friends(username):
     if request.method == 'GET':
@@ -242,7 +242,7 @@ def friends(username):
     else:
         abort(405)
         
-@app.route('/profile/<username>', methods=['GET'])
+@main.route('/profile/<username>', methods=['GET'])
 @login_required
 def profile(username):
     if request.method == 'GET':
